@@ -1,0 +1,88 @@
+﻿<Window x:Class="Recept.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        d:DataContext="{d:DesignInstance Type=local:ViewModel, IsDesignTimeCreatable=True}"
+        xmlns:local="clr-namespace:Recept"
+        mc:Ignorable="d"
+        Title="Книга рецептов" Height="800" Width="500">
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <ToolBar DockPanel.Dock="Left" Style="{StaticResource toolBarBlack}">
+                <Button ToolTip="Назад">
+                    <Image Source="Resources\prev.png" Width="40" Height="40"></Image>
+                </Button>
+                <TextBox Name="find" FontSize="18" MinWidth="150"
+                         Text="{Binding Path=TextBoxText, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
+                    <!--<TextBox.Triggers>
+                        <EventTrigger RoutedEvent="TextBox.TextChanged">
+                            
+
+                        </EventTrigger>
+                    </TextBox.Triggers>-->
+                </TextBox>
+            </ToolBar>
+        </DockPanel>
+
+        
+        <ListBox Name="receptsListBox"
+                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                 ItemsSource="{Binding OneRecept}"
+                 SelectedItem="{Binding Path=SelectedRecept, Mode=OneWayToSource}"
+                 Background="#FF92CEE9"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions> 
+                        <Border Margin="0,0,10,0" HorizontalAlignment="Left" Width="40" Height="40">
+                            <Image Source="{Binding Path=FirstImage}"></Image>
+                        </Border>
+                        <TextBlock Text="{Binding Path=Name}" FontSize="18" 
+                                   FontWeight="Bold" Grid.Row="1"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <ToolBar DockPanel.Dock="Left" Style="{StaticResource toolBarBlack}">
+                <Button ToolTip="Поиск рецепта">
+                    <Image Source="Resources\find.png" Width="40" Height="40"></Image>
+                </Button>
+                <Button ToolTip="Мои рецепты" Command="{Binding Path=FindByLike}">
+                    <Image Source="Resources\like.png" Width="40" Height="40"></Image>
+                </Button>
+                <Button ToolTip="Поиск по ингридиентах">
+                    <Image Source="Resources\ingredients-list.png" Width="40" Height="40"></Image>
+                </Button>
+            </ToolBar>
+
+            <ToolBar DockPanel.Dock="Right" Style="{StaticResource toolBarBlack}">
+                <Button ToolTip="Добавить рецепт"
+                        Command="{Binding Path=AddRecept}">
+                    <Image Source="Resources\plus.png" Width="40" Height="40"></Image>
+                </Button>
+                <Button ToolTip="Удалить рецепт">
+                    <Image Source="Resources\minus.png" Width="40" Height="40"></Image>
+                </Button>
+            </ToolBar>
+        </DockPanel>
+    </Grid>
+</Window>
